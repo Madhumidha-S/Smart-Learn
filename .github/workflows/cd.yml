@@ -27,8 +27,8 @@ jobs:
         run: terraform -chdir=app/terraform validate
 
       - name: Terraform Plan
-        run: terraform -chdir=app/terraform plan -out=tfplan
+        run: terraform -chdir=app/terraform plan -var-file="terraform.tfvars" -out=tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform -chdir=app/terraform apply -auto-approve tfplan
+        run: terraform -chdir=app/terraform apply -var-file="terraform.tfvars" -auto-approve tfplan
