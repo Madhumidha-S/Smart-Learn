@@ -22,13 +22,13 @@ jobs:
 
       - name: Test Backend Service 1
         run: |
-          cd app/app-deployment/backend-service-1
+          cd app/app-deployment/user-service
           npm ci
           npm test
 
       - name: Test Backend Service 2
         run: |
-          cd app/app-deployment/backend-service-2
+          cd app/app-deployment/course-service
           npm ci
           npm test
 
