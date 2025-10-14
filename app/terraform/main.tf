@@ -8,7 +8,7 @@ module "acr" {
 
 # Container App Environment
 resource "azurerm_container_app_environment" "env" {
-  name                = "${var.app_name}-env"
+  name                = "smart-learn-app-env-2"
   location            = var.location
   resource_group_name = var.rg_name
   identity {
