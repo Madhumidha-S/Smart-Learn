@@ -1,0 +1,39 @@
+name: CI Pipeline
+
+on:
+  push:
+    paths:
+      - 'app-deployment/**'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Run Lint and Tests
+        run: |
+          cd app-deployment/backend-service-1 && npm ci && npm test
+          cd ../backend-service-2 && npm ci && npm test
+          cd ../frontend && npm ci && npm run lint
+
+      - name: Build and Push Docker Images
+        env:
+          REGISTRY: ${{ secrets.AZURE_ACR_NAME }}.azurecr.io
+          USERNAME: ${{ secrets.AZURE_ACR_USERNAME }}
+          PASSWORD: ${{ secrets.AZURE_ACR_PASSWORD }}
+        run: |
+          echo $PASSWORD | docker login $REGISTRY -u $USERNAME --password-stdin
+          docker build -t $REGISTRY/user-service:latest ./app-deployment/backend-service-1
+          docker build -t $REGISTRY/course-service:latest ./app-deployment/backend-service-2
+          docker build -t $REGISTRY/frontend:latest ./app-deployment/frontend
+          docker push $REGISTRY/user-service:latest
+          docker push $REGISTRY/course-service:latest
+          docker push $REGISTRY/frontend:latest

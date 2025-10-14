@@ -1,0 +1,10 @@
+.DS_Store
+.env
+node_modules/
+.log
+docker-compose.override.yml
+.terraform
+.tfstate
+*.tfstate.backup
+terraform.tfvars
+.vscode/
