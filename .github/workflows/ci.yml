@@ -22,9 +22,9 @@ jobs:
 
       - name: Run Lint and Tests
         run: |
-          cd app-deployment/backend-service-1 && npm ci && npm test
-          cd ../backend-service-2 && npm ci && npm test
-          cd ../frontend && npm ci && npm run lint
+          cd app/app-deployment/backend-service-1 && npm ci && npm test
+          cd app/app-deployment/backend-service-2 && npm ci && npm test
+          cd app/app-deployment/frontend && npm ci && npm run lint
 
       - name: Build and Push Docker Images
         env:
