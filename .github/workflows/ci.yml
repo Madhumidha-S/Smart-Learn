@@ -3,10 +3,10 @@ name: CI Pipeline
 on:
   push:
     paths:
-      - 'app/app-deployment/**'
+      - "app/app-deployment/**"
   pull_request:
     paths:
-      - 'app/app-deployment/**'
+      - "app/app-deployment/**"
 
 jobs:
   build:
@@ -45,8 +45,8 @@ jobs:
           PASSWORD: ${{ secrets.AZURE_ACR_PASSWORD }}
         run: |
           echo $PASSWORD | docker login $REGISTRY -u $USERNAME --password-stdin
-          docker build -t $REGISTRY/user-service:latest ./app/app-deployment/backend-service-1
-          docker build -t $REGISTRY/course-service:latest ./app/app-deployment/backend-service-2
+          docker build -t $REGISTRY/user-service:latest ./app/app-deployment/user-service
+          docker build -t $REGISTRY/course-service:latest ./app/app-deployment/course-service
           docker build -t $REGISTRY/frontend:latest ./app/app-deployment/frontend
           docker push $REGISTRY/user-service:latest
           docker push $REGISTRY/course-service:latest
