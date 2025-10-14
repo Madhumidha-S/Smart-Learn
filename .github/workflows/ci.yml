@@ -3,8 +3,10 @@ name: CI Pipeline
 on:
   push:
     paths:
-      - 'app-deployment/**'
+      - 'app/app-deployment/**'
   pull_request:
+    paths:
+      - 'app/app-deployment/**'
 
 jobs:
   build:
