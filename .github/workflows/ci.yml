@@ -20,11 +20,23 @@ jobs:
         with:
           node-version: 18
 
-      - name: Run Lint and Tests
+      - name: Test Backend Service 1
         run: |
-          cd app/app-deployment/backend-service-1 && npm ci && npm test
-          cd app/app-deployment/backend-service-2 && npm ci && npm test
-          cd app/app-deployment/frontend && npm ci && npm run lint
+          cd app/app-deployment/backend-service-1
+          npm ci
+          npm test
+
+      - name: Test Backend Service 2
+        run: |
+          cd app/app-deployment/backend-service-2
+          npm ci
+          npm test
+
+      - name: Lint Frontend
+        run: |
+          cd app/app-deployment/frontend
+          npm ci
+          npm run lint
 
       - name: Build and Push Docker Images
         env:
@@ -33,9 +45,9 @@ jobs:
           PASSWORD: ${{ secrets.AZURE_ACR_PASSWORD }}
         run: |
           echo $PASSWORD | docker login $REGISTRY -u $USERNAME --password-stdin
-          docker build -t $REGISTRY/user-service:latest ./app-deployment/backend-service-1
-          docker build -t $REGISTRY/course-service:latest ./app-deployment/backend-service-2
-          docker build -t $REGISTRY/frontend:latest ./app-deployment/frontend
+          docker build -t $REGISTRY/user-service:latest ./app/app-deployment/backend-service-1
+          docker build -t $REGISTRY/course-service:latest ./app/app-deployment/backend-service-2
+          docker build -t $REGISTRY/frontend:latest ./app/app-deployment/frontend
           docker push $REGISTRY/user-service:latest
           docker push $REGISTRY/course-service:latest
           docker push $REGISTRY/frontend:latest
