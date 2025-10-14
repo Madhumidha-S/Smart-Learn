@@ -8,7 +8,7 @@ module "acr" {
 
 # Container App Environment
 resource "azurerm_container_app_environment" "env" {
-  name                = "smart-learn-app-env-2"
+  name                = "smart-learn-app-env"
   location            = var.location
   resource_group_name = var.rg_name
   identity {
@@ -80,6 +80,6 @@ module "notifications" {
 module "monitor_alerts" {
   source          = "./modules/monitor_alerts"
   rg_name         = var.rg_name
-  apps            = module.container_apps.app_ids
+  apps            = var.apps
   action_group_id = module.notifications.action_group_id
 }
