@@ -40,7 +40,7 @@ module "container_apps" {
   env_id   = azurerm_container_app_environment.env.id
   app_name = var.app_name
 
-  # Add these new inputs 👇
+  # Add these new inputs
   acr_login_server          = module.acr.acr_login_server
   env_identity_principal_id = azurerm_container_app_environment.env.identity[0].principal_id
 
@@ -50,17 +50,17 @@ module "container_apps" {
   ]
 
   containers = {
-    "user-service-v3" = {
+    "user-service" = {
       image   = "${module.acr.acr_login_server}/user-service:latest"
       env     = [{ name = "DB_HOST", value = var.db_host }]
       secrets = [{ name = "db-password", value = var.db_password }]
     }
-    "course-service-v3" = {
+    "course-service" = {
       image   = "${module.acr.acr_login_server}/course-service:latest"
       env     = [{ name = "DB_HOST", value = var.db_host }]
       secrets = [{ name = "db-password", value = var.db_password }]
     }
-    "frontend-v3" = {
+    "frontend" = {
       image   = "${module.acr.acr_login_server}/frontend:latest"
       env     = []
       secrets = []
