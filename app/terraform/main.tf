@@ -80,6 +80,7 @@ module "notifications" {
 module "monitor_alerts" {
   source          = "./modules/monitor_alerts"
   rg_name         = var.rg_name
-  apps            = var.apps
+  apps            = module.container_apps.app_ids
   action_group_id = module.notifications.action_group_id
+  depends_on = [module.container_apps]
 }
