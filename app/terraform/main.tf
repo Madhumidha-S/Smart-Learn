@@ -76,11 +76,15 @@ module "notifications" {
   email   = var.email
 }
 
+variable "app_names" {
+  default = ["user-service", "course-service"]  # keys are known
+}
+
 # Monitor Alerts Module
 module "monitor_alerts" {
   source          = "./modules/monitor_alerts"
   rg_name         = var.rg_name
-  apps            = module.container_apps.app_ids
+  apps = { for app in var.app_names : app => module.container_apps.app_ids[app] }
   action_group_id = module.notifications.action_group_id
   depends_on = [module.container_apps]
 }
