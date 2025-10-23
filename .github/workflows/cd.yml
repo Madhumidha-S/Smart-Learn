@@ -43,7 +43,7 @@ jobs:
           terraform_version: 1.9.5
 
       - name: Terraform Init
-        run: terraform -chdir=app/terraform init -input=false -no-color
+        run: terraform -chdir=app/terraform init -reconfigure
 
       - name: Terraform Validate
         run: terraform -chdir=app/terraform validate
