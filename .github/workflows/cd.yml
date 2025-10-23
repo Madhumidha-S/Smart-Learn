@@ -16,6 +16,9 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
+      ARM_USE_OIDC: true
+      ARM_OIDC_TOKEN_FILE_PATH: /tmp/azure_oidc_token
+
       TF_VAR_acr_name: ${{ secrets.AZURE_ACR_NAME }}
       TF_VAR_rg_name: ${{ secrets.AZURE_RG_NAME }}
       TF_VAR_location: "East US"
