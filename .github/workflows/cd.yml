@@ -12,11 +12,10 @@ jobs:
       id-token: write
       contents: read
     env:
-      ARM_USE_OIDC: true
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ARM_USE_AZUREAD: true
+      ARM_ACCESS_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
 
       TF_VAR_acr_name: ${{ secrets.AZURE_ACR_NAME }}
       TF_VAR_rg_name: ${{ secrets.AZURE_RG_NAME }}
@@ -36,7 +35,6 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          allow-no-subscriptions: true
 
       - uses: hashicorp/setup-terraform@v3
         with:
