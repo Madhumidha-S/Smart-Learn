@@ -1,6 +1,9 @@
 provider "azurerm" {
   features {}
-  subscription_id = "7a783723-bf93-4493-bca9-ea6a9d8202be"
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
 }
 
 # The block that caused the invalid character error
