@@ -38,13 +38,13 @@ resource "azurerm_role_assignment" "acr_pull" {
   }
 }
 
-resource "null_resource" "role_assignment_delay" {
-  depends_on = [azurerm_role_assignment.acr_pull]
+#resource "null_resource" "role_assignment_delay" {
+#  depends_on = [azurerm_role_assignment.acr_pull]
 
-  provisioner "local-exec" {
-    command = "sleep 300"
-  }
-}
+#  provisioner "local-exec" {
+#    command = "sleep 300"
+#  }
+#}
 
 # Container Apps Module
 module "container_apps" {
@@ -60,7 +60,7 @@ module "container_apps" {
 
   depends_on = [
     azurerm_role_assignment.acr_pull,
-    null_resource.role_assignment_delay,
+    # null_resource.role_assignment_delay,
   ]
 
   containers = {
