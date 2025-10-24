@@ -26,20 +26,25 @@ resource "azurerm_container_app_environment" "env" {
 }
 
 # Assign AcrPull role to the environment identity
-#resource "azurerm_role_assignment" "acr_pull" {
-#  scope                = module.acr.acr_id # The ACR resource ID
-#  role_definition_name = "AcrPull"
-#  principal_id         = azurerm_container_app_environment.env.identity[0].principal_id
-#  depends_on           = [azurerm_container_app_environment.env]
-#}
+resource "azurerm_role_assignment" "acr_pull" {
+  count = 0
+  scope                = module.acr.acr_id # The ACR resource ID
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_container_app_environment.env.identity[0].principal_id
+  depends_on           = [azurerm_container_app_environment.env]
 
-#resource "null_resource" "role_assignment_delay" {
-#  depends_on = [azurerm_role_assignment.acr_pull]
+  lifecycle {
+    ignore_changes = all
+  }
+}
 
-#  provisioner "local-exec" {
-#    command = "sleep 300"
-#  }
-#}
+resource "null_resource" "role_assignment_delay" {
+  depends_on = [azurerm_role_assignment.acr_pull]
+
+  provisioner "local-exec" {
+    command = "sleep 300"
+  }
+}
 
 # Container Apps Module
 module "container_apps" {
@@ -53,10 +58,10 @@ module "container_apps" {
   acr_login_server          = module.acr.acr_login_server
   env_identity_principal_id = azurerm_container_app_environment.env.identity[0].principal_id
 
-#  depends_on = [
-#    azurerm_role_assignment.acr_pull,
-#    null_resource.role_assignment_delay,
-#  ]
+  depends_on = [
+    azurerm_role_assignment.acr_pull,
+    null_resource.role_assignment_delay,
+  ]
 
   containers = {
     "user-service" = {
