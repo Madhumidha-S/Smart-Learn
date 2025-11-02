@@ -6,10 +6,10 @@ variable "db_host" { type = string }
 variable "db_password" { type = string }
 variable "email" { type = string }
 
-# variable "client_id" {}
-# variable "client_secret" { sensitive = true }
-# variable "tenant_id" {}
-# variable "subscription_id" {}
+variable "client_id" {}
+variable "client_secret" { sensitive = true }
+variable "tenant_id" {}
+variable "subscription_id" {}
 
 variable "apps" {
   description = "Map of app names to their container app IDs"
